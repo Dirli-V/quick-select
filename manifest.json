@@ -1,0 +1,28 @@
+{
+    "name": "Quick Select",
+    "description": "Browser extension for quickly selecting text based on patterns",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content_script.js"
+            ],
+            "run_at": "document_start",
+            "match_origin_as_fallback": true,
+            "match_about_blank": true
+        }
+    ],
+    "commands": {
+        "copy-text": {
+            "suggested_key": "Ctrl+Shift+Space",
+            "description": "Copy text based on chosen label"
+        }
+    }
+}
