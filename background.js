@@ -5,13 +5,26 @@ async function getCurrentTab() {
   return tab;
 }
 
+async function copyText() {
+  let currentTab = await getCurrentTab();
+  if (!currentTab) {
+    console.error("Cannot find currently active tab");
+    return;
+  }
+
+  chrome.tabs.sendMessage(
+    currentTab.id,
+    { command: "copy-text" }
+  );
+}
+
 chrome.commands.onCommand.addListener(async (command) => {
-  console.log(`Command "${command}" triggered`);
-    let currentTab = await getCurrentTab();
-    console.log(currentTab);
-    if (currentTab) {
-      chrome.tabs.sendMessage(currentTab.id, {greeting: "hello"}, function(response) {
-        console.log(response.farewell);
-      });
-    }
+  switch (command) {
+    case "copy-text":
+      await copyText();
+      break;
+    default:
+      console.error("Unknown command", command);
+      break;
+  }
 });
